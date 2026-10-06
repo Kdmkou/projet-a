@@ -2,72 +2,237 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Duo Git & GitHub</title>
   <style>
+    * { box-sizing: border-box; }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0f172a;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(59, 130, 246, 0.16), transparent 38%),
+        radial-gradient(ellipse at 85% 20%, rgba(239, 68, 68, 0.13), transparent 35%),
+        #0f172a;
       color: white;
       text-align: center;
-      padding: 40px 20px;
+      padding: 64px 20px;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .hero {
+      margin: 0 auto 44px;
+      animation: appear 700ms ease-out both;
+    }
+
+    h1 {
+      color: #f59e0b;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.04em;
+      margin: 0 0 10px;
+      text-shadow: 0 0 28px rgba(245, 158, 11, 0.3);
+    }
+
+    p.subtitle {
+      color: #94a3b8;
+      font-size: 1.05rem;
       margin: 0;
     }
-    h1 { color: #f59e0b; margin-bottom: 5px; }
-    p.subtitle { color: #94a3b8; margin-bottom: 40px; }
-    
-    /* Conteneur côte à côte */
+
     .duo-container {
       display: flex;
       justify-content: center;
-      gap: 30px;
+      align-items: stretch;
+      gap: 28px;
       flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
-    /* Style de base des cartes */
     .card {
-      background: #1e293b;
+      --accent: #3b82f6;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
       border-radius: 16px;
       width: 320px;
-      padding: 25px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      padding: 28px;
+      border: 1px solid color-mix(in srgb, var(--accent) 72%, transparent);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.32), 0 0 24px color-mix(in srgb, var(--accent) 12%, transparent);
       text-align: left;
+      position: relative;
+      overflow: hidden;
+      animation: appear 700ms ease-out both;
+      transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
     }
 
-    /* CARTE PERSONNE A (BLEUE) */
-    .card-a { border: 3px solid #3b82f6; }
-    .badge-a { background: #3b82f6; }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 12%;
+      width: 76%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
 
-    /* CARTE PERSONNE B (ROUGE) */
-    .card-b { border: 3px solid #ef4444; }
-    .badge-b { background: #ef4444; }
+    .card:hover {
+      transform: translateY(-9px);
+      border-color: var(--accent);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.42), 0 0 32px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    .card-a { --accent: #3b82f6; }
+    .card-b { --accent: #ef4444; animation-delay: 140ms; }
 
     .badge {
       display: inline-block;
-      padding: 4px 12px;
+      padding: 6px 13px;
       border-radius: 20px;
       font-weight: bold;
       font-size: 0.8rem;
       color: white;
+      background: var(--accent);
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 38%, transparent);
     }
 
-    .avatar { font-size: 4rem; text-align: center; margin: 15px 0; }
-    ul { padding-left: 20px; line-height: 1.8; color: #cbd5e1; }
-    
-    /* Zone en attente pour la Personne B */
-    .pending-box {
-      border: 2px dashed #64748b;
-      border-radius: 10px;
-      padding: 30px 15px;
+    h2 {
+      font-size: 1.4rem;
+      margin: 18px 0 0;
+    }
+
+    .avatar {
+      font-size: 4rem;
       text-align: center;
-      color: #94a3b8;
-      margin-top: 20px;
+      margin: 18px 0;
+      filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--accent) 28%, transparent));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    ul {
+      padding-left: 20px;
+      line-height: 1.8;
+      color: #cbd5e1;
+      margin-bottom: 0;
+    }
+
+    li { padding-left: 3px; }
+    li + li { margin-top: 6px; }
+    li::marker { color: var(--accent); }
+    strong { color: #f8fafc; }
+
+    .game-panel {
+      --accent: #f59e0b;
+      width: min(100%, 700px);
+      margin: 48px auto 0;
+      text-align: center;
+    }
+
+    .game-panel h2 { margin: 0 0 8px; }
+
+    .game-intro,
+    .game-status,
+    .game-feedback { color: #cbd5e1; }
+
+    .game-scores {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 22px 0;
+    }
+
+    .score {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      color: #cbd5e1;
+      padding: 10px 16px;
+    }
+
+    .score-a { border-color: #3b82f6; }
+    .score-b { border-color: #ef4444; }
+    .score strong { font-size: 1.2rem; margin-left: 6px; }
+
+    .game-question {
+      color: #f8fafc;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      margin: 22px 0 16px;
+    }
+
+    .answer-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 520px;
+    }
+
+    .game-button {
+      border: 1px solid #475569;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #e2e8f0;
+      cursor: pointer;
+      font: inherit;
+      padding: 12px 16px;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .game-button:hover:not(:disabled) {
+      background: #263449;
+      border-color: #f59e0b;
+      transform: translateY(-2px);
+    }
+
+    .game-button:focus-visible {
+      outline: 3px solid #fbbf24;
+      outline-offset: 3px;
+    }
+
+    .game-button:disabled { cursor: default; opacity: 0.85; }
+    .game-button.is-correct { background: #166534; border-color: #22c55e; }
+    .game-button.is-wrong { background: #7f1d1d; border-color: #ef4444; }
+
+    .game-controls { margin-top: 18px; }
+    .game-controls .game-button { background: #f59e0b; border-color: #f59e0b; color: #111827; font-weight: 700; }
+    .game-controls .game-button:hover:not(:disabled) { background: #fbbf24; }
+    .game-feedback { min-height: 1.5em; margin: 14px 0 0; }
+    .game-result { color: #fbbf24; font-size: 1.3rem; }
+
+    [hidden] { display: none !important; }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 48px 16px; }
+      .hero { margin-bottom: 32px; }
+      .card { width: min(100%, 360px); padding: 24px; }
+      .game-panel { margin-top: 32px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>⚡ LE DUO DE CHOC ⚡</h1>
-  <p class="subtitle">Ce site est complété à 50% par la Personne A et à 50% par la Personne B</p>
+  <header class="hero">
+    <h1>⚡ LE DUO DE CHOC ⚡</h1>
+    <p class="subtitle">Deux profils, une équipe : prêts à relever tous les défis !</p>
+  </header>
 
   <div class="duo-container">
 
@@ -80,7 +245,7 @@
       <div class="avatar">🥷</div>
       <ul>
         <li><strong>Rôle :</strong> Créateur du Dépôt</li>
-        <li><strong>Super Pouvoir :</strong> Dit "Ça marche sur ma machine !"</li>
+        <li><strong>Super Pouvoir :</strong> IA</li>
         <li><strong>Nourriture :</strong> ATTIEKE POULET</li>
         <li><strong>Phrase culte :</strong> "C'est DIEU QUI BENIT LE VAUT RIEN"</li>
       </ul>
@@ -91,17 +256,173 @@
     <!-- ======================================================= -->
     <div class="card card-b">
       <span class="badge badge-b">JOUEUR B</span>
-
-      <!-- LE BLOC CI-DESSOUS SERA REMPLACÉ PAR LA PERSONNE B -->
-      <div class="pending-box">
-        <h3>🔴 EN ATTENTE DE "B"</h3>
-        <p>La Personne B n'a pas encore fait son <code>git push</code> !</p>
-        <p>⏱️ <em>Chargement en cours...</em></p>
-      </div>
-
+      <h2>Abdou Ouattara</h2>
+      <div class="avatar">💻</div>
+      <ul>
+        <li><strong>Rôle :</strong> Étudiant en Master Réseaux, Infrastructures et Sécurité</li>
+        <li><strong>Super Pouvoir :</strong> Administration réseau, Linux et support informatique</li>
+        <li><strong>Expérience :</strong> Stages en administration réseau et support informatique</li>
+        <li><strong>Passions :</strong> Réseaux, télécommunications et développement front-end</li>
+      </ul>
     </div>
 
   </div>
+
+  <section class="card game-panel" aria-labelledby="game-title">
+    <h2 id="game-title">🎮 Duel Git &amp; GitHub</h2>
+    <p class="game-intro">Répondez chacun votre tour : 6 questions pour départager le duo !</p>
+
+    <div class="game-scores" aria-label="Scores">
+      <div class="score score-a">Alex <strong id="score-a">0</strong></div>
+      <div class="score score-b">Abdou <strong id="score-b">0</strong></div>
+    </div>
+
+    <p id="game-status" class="game-status" aria-live="polite">Lancez la partie pour commencer.</p>
+    <div id="game-round" hidden>
+      <h3 id="game-question" class="game-question"></h3>
+      <div id="answer-list" class="answer-list"></div>
+      <p id="game-feedback" class="game-feedback" aria-live="polite"></p>
+      <div class="game-controls">
+        <button id="next-button" class="game-button" type="button" hidden>Question suivante</button>
+      </div>
+    </div>
+    <p id="game-result" class="game-result" aria-live="polite" hidden></p>
+    <div class="game-controls">
+      <button id="start-button" class="game-button" type="button">Commencer la partie</button>
+    </div>
+  </section>
+
+  <script>
+    const questions = [
+      {
+        question: "Quelle commande permet de vérifier l’état des fichiers du dépôt ?",
+        answers: ["git status", "git check", "git files"],
+        correct: 0
+      },
+      {
+        question: "À quoi sert principalement GitHub ?",
+        answers: ["À héberger et partager des dépôts Git", "À remplacer un système d’exploitation", "À créer des mots de passe"],
+        correct: 0
+      },
+      {
+        question: "Quelle commande enregistre des changements dans l’historique local ?",
+        answers: ["git save", "git commit", "git upload"],
+        correct: 1
+      },
+      {
+        question: "Quel mot-clé permet de proposer des changements avant de les fusionner sur GitHub ?",
+        answers: ["Pull request", "Snapshot", "Checkpoint"],
+        correct: 0
+      },
+      {
+        question: "Quelle commande récupère les changements d’un dépôt distant et les fusionne ?",
+        answers: ["git pull", "git take", "git merge-down"],
+        correct: 0
+      },
+      {
+        question: "À quoi sert une branche Git ?",
+        answers: ["À travailler sur une version séparée du projet", "À supprimer l’historique", "À renommer le dépôt distant"],
+        correct: 0
+      }
+    ];
+
+    const players = ["Alex", "Abdou"];
+    const scores = [0, 0];
+    let questionIndex = 0;
+    let answered = false;
+
+    const startButton = document.querySelector("#start-button");
+    const nextButton = document.querySelector("#next-button");
+    const round = document.querySelector("#game-round");
+    const questionTitle = document.querySelector("#game-question");
+    const answerList = document.querySelector("#answer-list");
+    const status = document.querySelector("#game-status");
+    const feedback = document.querySelector("#game-feedback");
+    const result = document.querySelector("#game-result");
+
+    function updateScores() {
+      document.querySelector("#score-a").textContent = scores[0];
+      document.querySelector("#score-b").textContent = scores[1];
+    }
+
+    function showQuestion() {
+      const currentQuestion = questions[questionIndex];
+      const player = questionIndex % players.length;
+      answered = false;
+      questionTitle.textContent = currentQuestion.question;
+      status.textContent = `Question ${questionIndex + 1} sur ${questions.length} — au tour de ${players[player]} !`;
+      feedback.textContent = "";
+      answerList.replaceChildren();
+      nextButton.hidden = true;
+
+      currentQuestion.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "game-button";
+        button.type = "button";
+        button.textContent = answer;
+        button.addEventListener("click", () => chooseAnswer(button, index, currentQuestion, player));
+        answerList.append(button);
+      });
+    }
+
+    function chooseAnswer(button, selectedIndex, currentQuestion, player) {
+      if (answered) return;
+      answered = true;
+
+      const buttons = answerList.querySelectorAll("button");
+      buttons.forEach((answerButton, index) => {
+        answerButton.disabled = true;
+        if (index === currentQuestion.correct) answerButton.classList.add("is-correct");
+      });
+
+      if (selectedIndex === currentQuestion.correct) {
+        scores[player] += 1;
+        feedback.textContent = `Bonne réponse, ${players[player]} ! +1 point 🎉`;
+      } else {
+        button.classList.add("is-wrong");
+        feedback.textContent = `Raté ! La bonne réponse était : ${currentQuestion.answers[currentQuestion.correct]}.`;
+      }
+
+      updateScores();
+      nextButton.hidden = false;
+      nextButton.textContent = questionIndex === questions.length - 1 ? "Voir le résultat" : "Question suivante";
+      nextButton.focus();
+    }
+
+    function finishGame() {
+      round.hidden = true;
+      status.textContent = "La partie est terminée !";
+      result.hidden = false;
+      if (scores[0] === scores[1]) {
+        result.textContent = `Égalité parfaite : ${scores[0]} point(s) chacun ! 🤝`;
+      } else {
+        const winner = scores[0] > scores[1] ? players[0] : players[1];
+        result.textContent = `🏆 ${winner} remporte le duel !`;
+      }
+      startButton.hidden = false;
+      startButton.textContent = "Rejouer";
+    }
+
+    startButton.addEventListener("click", () => {
+      scores[0] = 0;
+      scores[1] = 0;
+      questionIndex = 0;
+      result.hidden = true;
+      round.hidden = false;
+      startButton.hidden = true;
+      updateScores();
+      showQuestion();
+    });
+
+    nextButton.addEventListener("click", () => {
+      questionIndex += 1;
+      if (questionIndex === questions.length) {
+        finishGame();
+      } else {
+        showQuestion();
+      }
+    });
+  </script>
 
 </body>
 </html>
