@@ -119,6 +119,29 @@
     li::marker { color: var(--accent); }
     strong { color: #f8fafc; }
 
+    .ai-video-section {
+      --accent: #22c55e;
+      width: min(100%, 700px);
+      margin: 48px auto 0;
+      text-align: left;
+    }
+
+    .ai-video-section h2 { margin: 0 0 8px; }
+    .ai-video-section p { color: #cbd5e1; margin: 0 0 18px; }
+
+    .ai-video {
+      display: block;
+      width: 100%;
+      max-height: 380px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .video-credit { margin: 12px 0 0 !important; font-size: 0.9rem; }
+    .video-credit a { color: #86efac; }
+
     .game-panel {
       --accent: #f59e0b;
       width: min(100%, 700px);
@@ -214,6 +237,7 @@
       body { padding: 48px 16px; }
       .hero { margin-bottom: 32px; }
       .card { width: min(100%, 360px); padding: 24px; }
+      .ai-video-section { margin-top: 32px; }
       .game-panel { margin-top: 32px; }
     }
 
@@ -267,6 +291,16 @@
     </div>
 
   </div>
+
+  <section class="card ai-video-section" aria-labelledby="ai-video-title">
+    <h2 id="ai-video-title">Une interaction avec l’IA</h2>
+    <p>Un aperçu vidéo de cinq secondes d’une interface de discussion avec une IA.</p>
+    <video id="ai-video" class="ai-video" controls preload="metadata" playsinline aria-label="Interaction avec une interface de chat IA">
+      <source src="https://videos.pexels.com/video-files/30479272/13060494_3240_2160_30fps.mp4" type="video/mp4">
+      Votre navigateur ne prend pas en charge la lecture vidéo.
+    </video>
+    <p class="video-credit">Vidéo : <a href="https://www.pexels.com/video/smartphone-with-ai-chat-interface-on-screen-30479272/" target="_blank" rel="noopener noreferrer">Airam Dato-on sur Pexels</a> · Licence gratuite Pexels</p>
+  </section>
 
   <section class="card game-panel" aria-labelledby="game-title">
     <h2 id="game-title">🎮 Duel Git &amp; GitHub</h2>
@@ -339,6 +373,19 @@
     const status = document.querySelector("#game-status");
     const feedback = document.querySelector("#game-feedback");
     const result = document.querySelector("#game-result");
+    const aiVideo = document.querySelector("#ai-video");
+    const aiVideoClipDuration = 5;
+
+    aiVideo.addEventListener("timeupdate", () => {
+      if (aiVideo.currentTime >= aiVideoClipDuration) {
+        aiVideo.pause();
+        aiVideo.currentTime = aiVideoClipDuration;
+      }
+    });
+
+    aiVideo.addEventListener("play", () => {
+      if (aiVideo.currentTime >= aiVideoClipDuration) aiVideo.currentTime = 0;
+    });
 
     function updateScores() {
       document.querySelector("#score-a").textContent = scores[0];
