@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Duo Git & GitHub</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    h1 { color: #f59e0b; margin-bottom: 5px; }
+    p.subtitle { color: #94a3b8; margin-bottom: 40px; }
+    
+    /* Conteneur côte à côte */
+    .duo-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    /* Style de base des cartes */
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      width: 320px;
+      padding: 25px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      text-align: left;
+    }
+
+    /* CARTE PERSONNE A (BLEUE) */
+    .card-a { border: 3px solid #3b82f6; }
+    .badge-a { background: #3b82f6; }
+
+    /* CARTE PERSONNE B (ROUGE) */
+    .card-b { border: 3px solid #ef4444; }
+    .badge-b { background: #ef4444; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      color: white;
+    }
+
+    .avatar { font-size: 4rem; text-align: center; margin: 15px 0; }
+    ul { padding-left: 20px; line-height: 1.8; color: #cbd5e1; }
+    
+    /* Zone en attente pour la Personne B */
+    .pending-box {
+      border: 2px dashed #64748b;
+      border-radius: 10px;
+      padding: 30px 15px;
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⚡ LE DUO DE CHOC ⚡</h1>
+  <p class="subtitle">Ce site est complété à 50% par la Personne A et à 50% par la Personne B</p>
+
+  <div class="duo-container">
+
+    <!-- ======================================================= -->
+    <!-- ZONE 1 : MODIFIÉE PAR LA PERSONNE A                     -->
+    <!-- ======================================================= -->
+    <div class="card card-a">
+      <span class="badge badge-a">JOUEUR A</span>
+      <h2>Alex (Personne A)</h2>
+      <div class="avatar">🥷</div>
+      <ul>
+        <li><strong>Rôle :</strong> Créateur du Dépôt</li>
+        <li><strong>Super Pouvoir :</strong> Dit "Ça marche sur ma machine !"</li>
+        <li><strong>Nourriture :</strong> ATTIEKE POULET</li>
+        <li><strong>Phrase culte :</strong> "C'est DIEU QUI BENIT LE VAUT RIEN"</li>
+      </ul>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- ZONE 2 : MODIFIÉE PAR LA PERSONNE B                     -->
+    <!-- ======================================================= -->
+    <div class="card card-b">
+      <span class="badge badge-b">JOUEUR B</span>
+
+      <!-- LE BLOC CI-DESSOUS SERA REMPLACÉ PAR LA PERSONNE B -->
+      <div class="pending-box">
+        <h3>🔴 EN ATTENTE DE "B"</h3>
+        <p>La Personne B n'a pas encore fait son <code>git push</code> !</p>
+        <p>⏱️ <em>Chargement en cours...</em></p>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
